@@ -12,6 +12,7 @@ namespace Calc
 {
     class Program
     {
+        static string expression;
         static void Main(string[] args)
         {
 #if CALC_1
@@ -111,18 +112,15 @@ namespace Calc
             //    Console.WriteLine();
 
             //} while (!correct);
-            bool correct = true;
-            do
-            {
-                correct = true;
-                
-                string expression = "(22 + 33 )+5";
-                Console.WriteLine($"Result: {Browse(expression)}");
-            } while (!correct);
+            expression = "(22 + 33 * (44 + 55)) / 5";
+            //expression = "(11 + (55+(22+33)/4-5)*2*3+3)*(3+2)";
+            Console.WriteLine(expression);
+            Console.WriteLine(Browse(expression));
+            Console.WriteLine(Calculate(expression));
         }
-       
 
-        static double Browse(string expression)
+
+        static string Browse(string expression)
         {
             expression = expression.Replace(" ", "");
             for (int i = 0; i < expression.Length; i++)
@@ -131,30 +129,41 @@ namespace Calc
                 {
                     for (int j = i + 1; j < expression.Length; j++)
                     {
+                        if (expression[j] == '(')
+                        {
+                            string buffer = expression.Substring(j + 1, expression.Length - j - 1);
+                            Browse(buffer);
+                        }
                         if (expression[j] == ')')
                         {
                             //string subexpression = expression.Substring(i, j - i);
-                            //string subexpression = expression.Substring(i, j - i);
                             //double result = Calculate(subexpression.Substring(1, subexpression.Length - 2));
-                            string subexpression = expression.Substring(i + 1, j - i - 1);
-                            double result = Calculete(subexpression);
-
-                            expression = expression.Replace($"({subexpression})", result.ToString());
-                            break;
-                        }
-                        else if (expression[j] == '(')
-                        {
-                            Browse(expression.Substring(j + 1, expression.Length - 1 - j));
+                            string buffer = expression.Substring(i + 1, j - i - 1);
+                            if (!buffer.Contains('(') && !buffer.Contains(')'))
+                            {
+                                double result = Calculate(buffer);
+                                Program.expression = expression.Replace($"({buffer})", result.ToString());
+                            }
+                            Browse(Program.expression);
+                            //break;
                         }
                     }
                 }
+                if (expression[i] == ')')
+                {
+                    string buffer = expression.Substring(0, i);
+                    if (!buffer.Contains('(') && !buffer.Contains(')'))
+                    {
+                        double result = Calculate(buffer);
+                        Program.expression = expression.Replace($"{buffer})", result.ToString());
+                    }
+                    Browse(Program.expression);
+                }
             }
-            return Calculete(expression);
+            return expression;
         }
-        static double Calculete(string expression)
+        static double Calculate(string expression)
         {
-
-
             expression = expression.Replace(" ", "");
             Console.WriteLine(expression);
 
