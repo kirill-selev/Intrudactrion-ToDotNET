@@ -113,7 +113,7 @@ namespace Calc
 
             //} while (!correct);
             expression = "(22 + 33 * (44 + 55)) / 5";
-            //expression = "(11 + (55+(22+33)/4-5)*2*3+3)*(3+2)";
+           
             Console.WriteLine(expression);
             Console.WriteLine(Browse(expression));
             Console.WriteLine(Calculate(expression));
