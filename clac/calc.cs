@@ -1,4 +1,4 @@
-﻿//#define CALC_1
+﻿//#define CALC_12
 #define CALC_2
 
 using System;
