@@ -1,4 +1,4 @@
-﻿#define SINGLE_DIMENSION_ARRAYS
+﻿//#define SINGLE_DIMENSION_ARRAYS
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +35,35 @@ namespace Array_s
             Console.WriteLine();
 
 #endif 
+
+
+            Random rand = new Random();
+            int size = 10, Limit = 100;
+            int[] SDarr = new int[size];
+            for (int i = 0; i < SDarr.Length; i++)
+            {
+                SDarr[i] = rand.Next(Limit);
+                Console.Write(SDarr[i] + " ");
+            }
+            Console.WriteLine();
+            int sum = 0, min = int.MaxValue, max = int.MinValue;
+            for (int i = 0; i < SDarr.Length; i++)
+            {
+                sum += SDarr[i];
+                if (min > SDarr[i])
+                {
+                    min = SDarr[i];
+                }
+                if (max < SDarr[i])
+                {
+                    max = SDarr[i];
+                }
+            }
+            double arithmeticMean = sum / (double)size;
+            Console.WriteLine($"Sum = {sum}\nArithmetic Mean =  {arithmeticMean}\nMin = {min}\nMax = {max} ");
+
+
+
         }
     }
 }
